@@ -22,13 +22,29 @@ class Register extends BaseController
         if(count($validation_result)==0){
             //check in db for duplicate user
             $userModel=new UserModel();
-        }
-        else{
-            // echo "invalid form inputs<br>";
-            // echo var_dump($validation_result);
-            return view('register',$validation_result);
+            $result_duplicate=$userModel->dulpicateUser($form_email,$form_username);
 
+            // echo var_dump($result_duplicate);
+            if($result_duplicate["duplicate"]==false){
+                
+                //register user 
+                $userData=["email"=>$form_email,"username"=>$form_username,"password"=>password_hash($form_password,PASSWORD_DEFAULT)];
+                $saveUser=$userModel->registerUser($userData);
+                if($saveUser)
+                    $validation_result["dbValidation"]="Account created Successfully";
+                else    //failed to register user
+                    $validation_result["dbValidation"]="Something went wrong!";
+
+
+            }
+            
+            else //username/pass already present
+                $validation_result["dbValidation"]=$result_duplicate["duplicate"];
+            
         }
+        // echo "invalid form inputs<br>";
+        // echo var_dump($validation_result);
+        return view('register',$validation_result);
 
     }
 

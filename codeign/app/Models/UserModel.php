@@ -15,13 +15,28 @@ class UserModel extends Model
         // $query=$db->query("select * from user_details");
         // $records= $query->getResult();
         // return $records;
-        $this->insert($userData);
+        $result=$this->insert($userData);
+        return $result;
     }
 
 
 
-    public function dulpicateUser($email,$usermame){
-        
+    public function dulpicateUser($email,$username){
+        // select * from user_details where email = '$email' OR username = '$username;'
+
+        $executeQ=$this->db->table('user_details')->select('*')->where('email', $email)->orWhere('username', $username)->get();
+        $result = $executeQ->getResultArray();
+        // echo var_dump($result);
+        if(count($result)>0){
+
+            if($result[0]["username"]==$username)
+                return ["duplicate"=>"Username already exists!"];
+            else
+                return ["duplicate"=>"Email already exists!"];
+        }
+
+        else
+            return ["duplicate"=>false];
     }
 
     

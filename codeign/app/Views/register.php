@@ -26,7 +26,7 @@
 
         <button type="submit" id="form-submit">REGISTER</button>
 
-        <span class="validate dbValidation"></span>
+        <span class="validate dbValidation"><?php echo (isset($dbValidation))?$dbValidation:"" ?></span>
 
         <a href="./login">Already a User?</a>
 
