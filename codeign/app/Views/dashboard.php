@@ -9,6 +9,7 @@
 </head>
 <body class="vh-align flex-col-direction">
     <h2>This is dashboard</h2>
-    <a href="#logout" class="logout">LOG OUT</a>
+    <?php echo (isset($name))?"<h4>Hello ".$name."</h4>":"" ?>
+    <a href="./logout" class="logout">LOG OUT</a>
 </body>
 </html>

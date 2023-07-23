@@ -39,5 +39,32 @@ class UserModel extends Model
             return ["duplicate"=>false];
     }
 
+
+    public function validateLogin($username,$password){
+        $executeQ=$this->db->table('user_details')->select('*')->where('username', $username)->get();
+        $recordFound = $executeQ->getResultArray();
+        // echo var_dump($result);
+        if($recordFound){
+            // echo"record found";if username does not exist
+            // echo var_dump($recordFound);
+
+            if(password_verify($password,$recordFound[0]["password"]))
+                return ["validationStatus"=>true,"id"=>$recordFound[0]["id"]];
+
+            else
+                return ["validationStatus"=>false,"message"=>"Invalid credentials"];
+        }
+
+        else
+            return ["validationStatus"=>false,"message"=>"Invalid credentials"];
+
+
+    }
+
+    public function getUserDetails($id){
+        $executeQ=$this->db->table('user_details')->select('*')->where('id', $id)->get();
+        return $executeQ->getResultArray();
+    }
+
     
 }

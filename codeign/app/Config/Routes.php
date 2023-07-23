@@ -42,6 +42,7 @@ $routes->get('/register', 'Register::index');
 $routes->post('/register', 'Register::registerValidate');
 
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->get('/logout', 'Dashboard::logout');
 
 
 /*

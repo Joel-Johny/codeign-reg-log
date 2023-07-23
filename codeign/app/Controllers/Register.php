@@ -1,6 +1,10 @@
 <?php
-
 namespace App\Controllers;
+
+if (isset($_COOKIE['ci_session'])) {
+    header('Location: dashboard');
+    exit();
+}
 use App\Models\UserModel;
 class Register extends BaseController
 {
@@ -38,7 +42,7 @@ class Register extends BaseController
 
             }
             
-            else //username/pass already present
+            else //username/email already present
                 $validation_result["dbValidation"]=$result_duplicate["duplicate"];
             
         }

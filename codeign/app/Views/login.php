@@ -14,7 +14,7 @@
         <input type="text" placeholder="Username" name="username" size=30 required>
         <input type="password" placeholder="Password" name="password" required>
         <button type="submit">LOGIN</button>
-        <span class="validate login_err"></span>
+        <span class="validate login_err"><?php echo (isset($login_err))?$login_err:"" ?></span>
 
         <a href="./register">New User?</a>
 
