@@ -49,7 +49,7 @@ class UserModel extends Model
             // echo var_dump($recordFound);
 
             if(password_verify($password,$recordFound[0]["password"]))
-                return ["validationStatus"=>true,"id"=>$recordFound[0]["id"]];
+                return ["validationStatus"=>true,"id"=>$recordFound[0]["id"]];//password verified sending id
 
             else
                 return ["validationStatus"=>false,"message"=>"Invalid credentials"];

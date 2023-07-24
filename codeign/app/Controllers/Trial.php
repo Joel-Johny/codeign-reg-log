@@ -22,7 +22,7 @@ class Trial extends BaseController
 
         $arrayData=[
             ["subject"=>"maths","marks"=>"23"],
-            ["subject"=>"science","marks"=>"55 SHEET"],
+            ["subject"=>"science","marks"=>"55"],
             ["subject"=>"physics","marks"=>"80"],
         ];
         echo var_dump($arrayData);

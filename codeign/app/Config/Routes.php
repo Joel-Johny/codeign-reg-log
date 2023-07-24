@@ -35,6 +35,14 @@ $routes->get('/', 'Home::index');
 $routes->get('/trial', 'Trial::index');
 $routes->get('/trial/realpage', 'Trial::realpage');
 
+$routes->get('pages', 'Pages::index');
+$routes->get('pages/(:segment)', 'Pages::vi22ew/$1');
+
+use App\Controllers\News;
+$routes->get('news', [News::class, 'index']);
+$routes->match(['get', 'post'], 'news/create', [News::class, 'create']);
+$routes->get('news/(:segment)','News::view/$1');
+
 $routes->get('/login', 'Login::index');
 $routes->post('/login', 'Login::loginValidate');
 
