@@ -7,11 +7,13 @@ class Register extends BaseController
 
     public function __construct()
     {
-        echo "constructor called";
+        // echo "constructor called";
         if (isset($_COOKIE['ci_session'])) {
             header('Location: dashboard');
             exit();
         }
+        $this->form_validation =\Config\Services::validation();
+
     }
 
     public function index(){
@@ -20,27 +22,26 @@ class Register extends BaseController
             return view('register');
         
         $form_post_data = $this->request->getPost(['email', 'username', 'password', 'confirm_password']);
-        $validations =\Config\Services::validation();
         $rules=[
             'email' => 'required|valid_email',
             'username' => 'required|min_length[4]',
             'password' => 'required|min_length[8]',
             'confirm_password'  => 'required|matches[password]'
         ];
-        $validations->setRules($rules);
+        $this->form_validation->setRules($rules);
 
 
-        if (!$validations->run($form_post_data)) {
-            echo "Validation failed";
+        if (!$this->form_validation->run($form_post_data)) {
+            // echo "Validation failed";
             $validationResult=$validations->getErrors();
         }
 
         else{
-            echo "Validation passed";
+            // echo "Validation passed";
             // check for duplicate user
             $userModel=new UserModel();
             $result=$userModel->dulpicateUser($form_post_data["email"],$form_post_data["username"]);
-            echo var_dump($result);
+            // echo var_dump($result);
             if(isset($result)){
 
                 if($result["username"]==$form_post_data["username"])

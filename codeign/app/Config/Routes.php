@@ -49,7 +49,6 @@ $routes->match(['get', 'post'], '/login', 'Login::index');
 
 $routes->match(['get', 'post'], '/register', 'Register::index');
 
-
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/logout', 'Dashboard::logout');
 
