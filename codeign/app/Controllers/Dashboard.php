@@ -1,14 +1,20 @@
 <?php
 namespace App\Controllers;
 
-if (!isset($_COOKIE['ci_session'])) {
-    header('Location: login');
-    exit();
-}
+
 use App\Models\UserModel;
 
 class Dashboard extends BaseController
 {
+    public function __construct()
+    {
+        echo "constructor called";
+        if (!isset($_COOKIE['ci_session'])) {
+            header('Location: login');
+            exit();
+        }
+    }
+
     public function index(){
         $userModel=new UserModel();
         $session = \Config\Services::session();

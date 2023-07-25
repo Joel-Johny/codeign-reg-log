@@ -10,19 +10,21 @@
 <body class="vh-align">
 
     <form method="post" action="./register" class="flex-col-direction" id="register-form">
+
+    <?= csrf_field() ?>
         <h3> REGISTER </h3>
 
-        <input type="email" placeholder="Email" name="email" size=35 required>
-        <span class="validate email_err"><?php echo (isset($email_err))?$email_err:"" ?></span>
+        <input type="email" placeholder="Email" name="email" size=40 >
+        <span class="validate email_err"><?php echo (isset($email))?$email:"" ?></span>
 
-        <input type="text" placeholder="Username" name="username" required>
-        <span  class="validate username_err"><?php echo (isset($username_err))?$username_err:"" ?></span>
+        <input type="text" placeholder="Username" name="username" >
+        <span  class="validate username_err"><?php echo (isset($username))?$username:"" ?></span>
 
-        <input type="password" placeholder="Password" name="password" required>
-        <span  class="validate password_err"><?php echo (isset($password_err))?$password_err:"" ?></span>
+        <input type="password" placeholder="Password" name="password" >
+        <span  class="validate password_err"><?php echo (isset($password))?$password:"" ?></span>
 
-        <input type="password" placeholder="Confirm Password" name="c-password" required>
-        <span  class="validate c_password-err"><?php echo (isset($c_password_err))?$c_password_err:"" ?></span>
+        <input type="password" placeholder="Confirm Password" name="confirm_password" >
+        <span  class="validate c_password-err"><?php echo (isset($confirm_password))?$confirm_password:"" ?></span>
 
         <button type="submit" id="form-submit">REGISTER</button>
 

@@ -43,11 +43,12 @@ $routes->get('news', [News::class, 'index']);
 $routes->match(['get', 'post'], 'news/create', [News::class, 'create']);
 $routes->get('news/(:segment)','News::view/$1');
 
-$routes->get('/login', 'Login::index');
-$routes->post('/login', 'Login::loginValidate');
+// $routes->get('/login', 'Login::index');
+// $routes->post('/login', 'Login::loginValidate');
+$routes->match(['get', 'post'], '/login', 'Login::index');
 
-$routes->get('/register', 'Register::index');
-$routes->post('/register', 'Register::registerValidate');
+$routes->match(['get', 'post'], '/register', 'Register::index');
+
 
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/logout', 'Dashboard::logout');

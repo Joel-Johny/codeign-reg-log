@@ -10,11 +10,17 @@
 <body class="vh-align">
 
     <form method="post" action="./login" class="flex-col-direction" id="login-form">
+        <?= csrf_field() ?>
+
         <h3> LOGIN </h3>
-        <input type="text" placeholder="Username" name="username" size=30 required>
-        <input type="password" placeholder="Password" name="password" required>
+        <input type="text" placeholder="Username" name="username" size=30 >
+        <span class="validate username_err"><?php echo (isset($username))?$username:"" ?></span>
+
+        <input type="password" placeholder="Password" name="password" >
+        <span class="validate password_err"><?php echo (isset($password))?$password:"" ?></span>
+
         <button type="submit">LOGIN</button>
-        <span class="validate login_err"><?php echo (isset($login_err))?$login_err:"" ?></span>
+        <span class="validate login_status"><?php echo (isset($login_status))?$login_status:"" ?></span>
 
         <a href="./register">New User?</a>
 

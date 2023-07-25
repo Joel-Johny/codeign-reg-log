@@ -1,57 +1,71 @@
 <?php
 namespace App\Controllers;
 
-if (isset($_COOKIE['ci_session'])) {
-    header('Location: dashboard');
-    exit();
-}
 use App\Models\UserModel;
 class Register extends BaseController
 {
-    public function index(){
-        
-        return view('register');
 
-    }
-
-    public function registerValidate(){
-        include APPPATH . 'Controllers/validations.php';
-
-        $form_email=$this->request->getPost('email');
-        $form_username=$this->request->getPost('username');
-        $form_password=$this->request->getPost('password');
-        $form_c_password=$this->request->getPost('c-password');
-        
-        $validation_result=validations($form_email,$form_username,$form_password,$form_c_password);
-        if(count($validation_result)==0){
-            //check in db for duplicate user
-            $userModel=new UserModel();
-            $result_duplicate=$userModel->dulpicateUser($form_email,$form_username);
-
-            // echo var_dump($result_duplicate);
-            if($result_duplicate["duplicate"]==false){
-                
-                //register user 
-                $userData=["email"=>$form_email,"username"=>$form_username,"password"=>password_hash($form_password,PASSWORD_DEFAULT)];
-                $saveUser=$userModel->registerUser($userData);
-                if($saveUser)
-                    $validation_result["dbValidation"]="Account created Successfully";
-                else    //failed to register user
-                    $validation_result["dbValidation"]="Something went wrong!";
-
-
-            }
-            
-            else //username/email already present
-                $validation_result["dbValidation"]=$result_duplicate["duplicate"];
-            
+    public function __construct()
+    {
+        echo "constructor called";
+        if (isset($_COOKIE['ci_session'])) {
+            header('Location: dashboard');
+            exit();
         }
-        // echo "invalid form inputs<br>";
-        // echo var_dump($validation_result);
-        return view('register',$validation_result);
-
     }
 
+    public function index(){
+
+        if ($this->request->is('get')) 
+            return view('register');
+        
+        $form_post_data = $this->request->getPost(['email', 'username', 'password', 'confirm_password']);
+        $validations =\Config\Services::validation();
+        $rules=[
+            'email' => 'required|valid_email',
+            'username' => 'required|min_length[4]',
+            'password' => 'required|min_length[8]',
+            'confirm_password'  => 'required|matches[password]'
+        ];
+        $validations->setRules($rules);
+
+
+        if (!$validations->run($form_post_data)) {
+            echo "Validation failed";
+            $validationResult=$validations->getErrors();
+        }
+
+        else{
+            echo "Validation passed";
+            // check for duplicate user
+            $userModel=new UserModel();
+            $result=$userModel->dulpicateUser($form_post_data["email"],$form_post_data["username"]);
+            echo var_dump($result);
+            if(isset($result)){
+
+                if($result["username"]==$form_post_data["username"])
+                    $validationResult["dbValidation"]="Username already exists!";
+                else
+                    $validationResult["dbValidation"]="Email already exists!";
+            }
     
+            else {
+                //NO duplicate account so save the user
+                $userModel->save([
+                    'email' => $form_post_data["email"],
+                    'username' => $form_post_data["username"],
+                    'password' => password_hash($form_post_data["password"],PASSWORD_DEFAULT)
+                ]);
+                $validationResult["dbValidation"]="Account created successfully !";
+            }
+               
+
+        }
+
+     return view('register',$validationResult);
+
+    }
 }
+
+
 
