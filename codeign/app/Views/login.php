@@ -14,10 +14,10 @@
 
         <h3> LOGIN </h3>
         <input type="text" placeholder="Username" name="username" size=30 >
-        <span class="validate username_err"><?php echo (isset($username))?$username:"" ?></span>
+        <span class="validate username"><?php echo (isset($username))?$username:"" ?></span>
 
-        <input type="password" placeholder="Password" name="password" >
-        <span class="validate password_err"><?php echo (isset($password))?$password:"" ?></span>
+        <input type="password" placeholder="Password" name="password"  >
+        <span class="validate password"><?php echo (isset($password))?$password:"" ?></span>
 
         <button type="submit">LOGIN</button>
         <span class="validate login_status"><?php echo (isset($login_status))?$login_status:"" ?></span>
@@ -25,7 +25,7 @@
         <a href="./register">New User?</a>
 
     </form>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> -->
-<!-- <script src="./index.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="./js/index.js"></script>
 </body>
 </html>

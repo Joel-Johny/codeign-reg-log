@@ -12,7 +12,7 @@ class Register extends BaseController
             header('Location: dashboard');
             exit();
         }
-        $this->form_validation =\Config\Services::validation();
+        $this->validate =\Config\Services::validation();
 
     }
 
@@ -28,12 +28,13 @@ class Register extends BaseController
             'password' => 'required|min_length[8]',
             'confirm_password'  => 'required|matches[password]'
         ];
-        $this->form_validation->setRules($rules);
+        $this->validate->setRules($rules);
+        $ajax_response=["success"=>false];
 
 
-        if (!$this->form_validation->run($form_post_data)) {
+        if (!$this->validate->run($form_post_data)) {
             // echo "Validation failed";
-            $validationResult=$validations->getErrors();
+            $validationResult=$this->validate->getErrors();
         }
 
         else{
@@ -57,13 +58,17 @@ class Register extends BaseController
                     'username' => $form_post_data["username"],
                     'password' => password_hash($form_post_data["password"],PASSWORD_DEFAULT)
                 ]);
-                $validationResult["dbValidation"]="Account created successfully !";
+                $ajax_response=["success"=>true];
+
             }
                
 
         }
-
-     return view('register',$validationResult);
+    if($ajax_response["success"]==false)
+        $ajax_response["validations"]=$validationResult;
+    
+    exit(json_encode($ajax_response));
+    //  return view('register',$validationResult);
 
     }
 }

@@ -13,7 +13,7 @@ class Login extends BaseController
             header('Location: dashboard');
             exit();
         }
-        $this->form_validation =\Config\Services::validation();
+        $this->validate =\Config\Services::validation();
 
     }
 
@@ -28,11 +28,13 @@ class Login extends BaseController
                 'username' => 'required',
                 'password' => 'required',
             ];
-        $this->form_validation->setRules($rules);
+        $this->validate->setRules($rules);
+        $ajax_response=["success"=>false];
+
     
-        if (!$this->form_validation->run($form_post_data))//form validation 
+        if (!$this->validate->run($form_post_data))//form validation 
             // echo "Validation failed";
-            $validationResult=$this->form_validation->getErrors();
+            $validationResult=$this->validate->getErrors();
         
         else{
             // echo "Validation passed";
@@ -47,7 +49,8 @@ class Login extends BaseController
                     $validationResult["login_status"]="Password Verified!";
                     $session = \Config\Services::session();
                     $_SESSION['id']=$result["id"];
-                    return redirect('dashboard');
+                    $ajax_response["success"]=true;
+                    // return redirect('dashboard');
                 }
             
                 else
@@ -57,8 +60,12 @@ class Login extends BaseController
             else // record was not found
                 $validationResult["login_status"]="Invalid credentials";
         }
+        if($ajax_response["success"]==false)
+            $ajax_response["validations"]=$validationResult;
 
-        return view('login',$validationResult);
+        exit(json_encode($ajax_response));
+        
+        // return view('login',$validationResult);
 
     }
 
