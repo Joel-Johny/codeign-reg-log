@@ -43,7 +43,7 @@ $('#register-form').submit(function(event) {
 
 $('#login-form').submit(function(event) {
     event.preventDefault();
-    console.log("I am not submitting this form");
+    // console.log("I am not submitting this form");
 
     var formData = $('form').serialize();
 

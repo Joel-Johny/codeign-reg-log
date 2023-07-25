@@ -13,10 +13,10 @@
         <?= csrf_field() ?>
 
         <h3> LOGIN </h3>
-        <input type="text" placeholder="Username" name="username" size=30 >
+        <input type="text" placeholder="Username" name="username" size=30 required>
         <span class="validate username"><?php echo (isset($username))?$username:"" ?></span>
 
-        <input type="password" placeholder="Password" name="password"  >
+        <input type="password" placeholder="Password" name="password"  required>
         <span class="validate password"><?php echo (isset($password))?$password:"" ?></span>
 
         <button type="submit">LOGIN</button>
